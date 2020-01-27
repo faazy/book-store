@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+{% block content %}
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th colspan="5">Fiction Books</th>
+        </tr>
+        {% for book in invoice.Fiction.items %}
+            <tr>
+            <td>{{ book.name }}</td>
+            <td>{{ book.description }}</td>
+            <td>{{ book.unitPrice }}</td>
+            <td>{{ book.quantity }}</td>
+            <td>{{ book.unitPrice * book.quantity }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="4">Discount:{{ invoice.Fiction.discount }}</td>
+            <td>{{ invoice.Fiction.subTotal }}</td>
+        </tr>
+        <tr>
+            <th colspan="5">Children Books</th>
+        </tr>
+        {% for book in invoice.Children.items %}
+            <tr>
+                <td>{{ book.name }}</td>
+                <td>{{ book.description }}</td>
+                <td>{{ book.unitPrice }}</td>
+                <td>{{ book.quantity }}</td>
+                <td>{{ book.unitPrice * book.quantity }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="4">Discount:{{ invoice.Children.discount }}</td>
+            <td>{{ invoice.Children.subTotal }}</td>
+        </tr>
+        <tr>
+            <td colspan="4">Total Discount:{{ invoice.discount }}</td>
+            <td>Total: {{ invoice.total }}</td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+{% endblock %}
+
+

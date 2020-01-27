@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        <link type="text/css" rel="stylesheet"
+              href="{{ asset('/bower_components/bootstrap/dist/css/bootstrap.min.css') }}"
+              media="screen,projection"/>
+        <link rel="stylesheet" href="{{ asset('build/vendors~app.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+<body>
+{% block body %}
+    {% include 'components/header.html.twig' %}
+    <nav class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Breadcrumb -->
+                    <ol class="breadcrumb mb-0 font-size-xs text-gray-400">
+                        <li class="breadcrumb-item">
+                            <a class="text-gray-400" href="index.html">Home</a>
+                        </li>
+                    </ol>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="pt-4 pb-5">
+        <div class="container">
+            {% block content %}{% endblock content %}
+        </div>
+    </section>
+    {% include 'components/footer.html.twig' %}
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('/build/app.js') }}"></script>
+{% endblock %}
+</body>
+
+</html>

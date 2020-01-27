@@ -1,0 +1,12 @@
+.flex-row {
+  -webkit-box-orient: horizontal !important;
+  -webkit-box-direction: normal !important;
+  flex-direction: row !important;
+}
+
+.border-gray-700 {
+  border-color: #303030 !important;
+}
+
+
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vYXBwLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBRUE7RUFDRSx5Q0FBeUM7RUFDekMsd0NBQXdDO0VBQ3hDLDhCQUE4QjtBQUFoQzs7QUFHQTtFQUNFLGdDQUFnQztBQUFsQyIsImZpbGUiOiJhcHAuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiQGltcG9ydCBcIn5AZm9ydGF3ZXNvbWUvZm9udGF3ZXNvbWUtZnJlZS9jc3MvYWxsLm1pbi5jc3NcIjtcblxuLmZsZXgtcm93IHtcbiAgLXdlYmtpdC1ib3gtb3JpZW50OiBob3Jpem9udGFsICFpbXBvcnRhbnQ7XG4gIC13ZWJraXQtYm94LWRpcmVjdGlvbjogbm9ybWFsICFpbXBvcnRhbnQ7XG4gIGZsZXgtZGlyZWN0aW9uOiByb3cgIWltcG9ydGFudDtcbn1cblxuLmJvcmRlci1ncmF5LTcwMCB7XG4gIGJvcmRlci1jb2xvcjogIzMwMzAzMCAhaW1wb3J0YW50O1xufVxuIl0sInNvdXJjZVJvb3QiOiIifQ==*/

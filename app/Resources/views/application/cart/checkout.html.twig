@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+{% block content %}
+    <form action="checkout" method="post">
+        <div class="row">
+            <p>Cart Total : <span id="totalPrice">{{ cart.cartTotal }}</span></p>
+            <div class="input-field col s6">
+                <input id="coupon_code" name="coupon_code" type="text" class="validate">
+                <label for="coupon_code">Coupon Code</label>
+                <input type="submit" value="Checkout" class="waves-effect waves-light btn-small"></input>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        {% for book in cart.items %}
+            <div class="col s12">
+                <div class="card horizontal small card-small">
+                    <div class="card-image"><img src="https://images.pexels.com/photos/51342/books-education-school-literature-51342.jpeg?auto=compress&cs=tinysrgb&h=350"></div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <h6>{{ book.name }} | {{ book.category }}</h6>
+                            <span>Quantity</span>
+                            <input type="text" onKeyUp="editQty({{ book.id }})" id="qty_{{ book.id }}" value="{{ book.quantity }}" />
+                            <span>Unit Price</span>
+                            <input type="text" value="{{ book.unitPrice }}" />
+                            <p class="flow-text">{{ book.description }}</p>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <a href="/cart/delete/{{ book.id }}" class="waves-effect waves-light btn-small">Remove from Cart</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <a class="waves-effect waves-light btn-small" href="/book/index">Continue Shopping ...</a>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        function editQty(id) {
+            qty = $('#qty_'+id).val();
+            $.ajax({
+                type: 'POST',
+                url: "/cart/edit/"+id,
+                data: {"qty": qty},
+                success: function (result) {
+                    updateTotal(result.cartTotal);
+                }
+            });
+        }
+
+        function updateTotal(cartTotal) {
+            $('#totalPrice').html(cartTotal);
+        }
+    </script>
+
+{% endblock %}
+
+

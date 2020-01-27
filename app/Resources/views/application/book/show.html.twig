@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+    <div class="row">
+        {{ book.name }}
+    </div>
+    <div class="row">
+        {{ book.category.name }}
+    </div>
+    <div class="row">
+        {{ book.author }}
+    </div>
+    <div class="row">
+        {{ book.description }}
+    </div>
+    <div class="row">
+        {{ book.unitPrice }}
+    </div>
+    <div class="row">
+        <a href="/book/update/{{ book.id }}" class="waves-effect waves-light btn">Update</a>
+        <a href="/book/delete/{{ book.id }}" class="waves-effect waves-light btn">Delete</a>
+    </div>
+
+{% endblock %}

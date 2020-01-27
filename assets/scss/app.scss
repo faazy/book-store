@@ -1,0 +1,11 @@
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+
+.flex-row {
+  -webkit-box-orient: horizontal !important;
+  -webkit-box-direction: normal !important;
+  flex-direction: row !important;
+}
+
+.border-gray-700 {
+  border-color: #303030 !important;
+}

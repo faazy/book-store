@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Add Book</h5>
+                </div>
+                <div class="card-body">
+                    <div class="col-sm-6">
+                        {{ form_start(form, { 'action': path('book_create'), 'method': 'POST','attr': {'class': 'col s12'} }) }}
+                        {{ form_row(form.id) }}
+                        <div class="form-group">
+                            {{ form_row(form.name) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(form.author) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(form.category) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(form.description) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(form.unitPrice) }}
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('select').formSelect();
+        });
+    </script>
+
+{% endblock %}
