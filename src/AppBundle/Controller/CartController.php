@@ -41,32 +41,35 @@ class CartController extends Controller
     {
         $session = $request->getSession();
         /** @var Book $book */
-        $book = $this->getDoctrine()->getRepository(Book::class)
+        $book = $this->getDoctrine()
+            ->getRepository(Book::class)
             ->find($id);
 
         if (!$session->has("cartItems")) {
-            $newCart = array();
+            $newCart = [];
             $session->set("cartItems", $newCart);
         }
 
         $cartItems = $session->get("cartItems");
 
-        if (!array_key_exists($id, $cartItems)) {
-            $content = array();
-            $content["id"] = $book->getId();
-            $content["name"] = $book->getName();
-            $content["quantity"] = 1;
-            $content["category"] = $book->getCategory()->getName();
-            $content["description"] = $book->getDescription();
-            $content["unitPrice"] = $book->getUnitPrice();
-            $cartItems["items"][$id] = $content;
+        if (!array_key_exists($id, $cartItems['items'])) {
+            $cartItems["items"][$id] = [
+                'id' => $book->getId(),
+                'name' => $book->getName(),
+                'quantity' => 1,
+                'category' => $book->getCategory()->getName(),
+                'description' => $book->getDescription(),
+                'unitPrice' => $book->getUnitPrice(),
+                'sub_total' => $book->getUnitPrice() * 1,
+            ];
+        } else {
+            $cartItems["items"][$id]['quantity'] += 1;
         }
 
         $cartItems = $this->getUtil()->calculateTotal($cartItems);
         $session->set("cartItems", $cartItems);
 
         return $this->redirectToRoute('cart_view');
-
     }
 
     /**
@@ -105,7 +108,7 @@ class CartController extends Controller
         if ($session->has("cartItems")) {
             $cartItems = $session->get("cartItems");
 
-            if (array_key_exists($id, $cartItems)) {
+            if (array_key_exists($id, $cartItems['items'])) {
                 unset($cartItems["items"][$id]);
                 $cartItems = $this->getUtil()->calculateTotal($cartItems);
                 $session->set("cartItems", $cartItems);
@@ -116,12 +119,11 @@ class CartController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}",name="edit_cart_item")
+     * @Route("/update", name="update_cart_item")
      * @param Request $request
-     * @param $id
      * @return JsonResponse
      */
-    public function editCart(Request $request, $id)
+    public function update(Request $request)
     {
         $session = $request->getSession();
         $data = $request->request->all();
@@ -130,11 +132,19 @@ class CartController extends Controller
         if ($session->has("cartItems")) {
             $cartItems = $session->get("cartItems");
 
-            if (array_key_exists($id, $cartItems["items"])) {
-                $cartItems["items"][$id]["quantity"] = $data["qty"];
-                $cartItems = $this->getUtil()->calculateTotal($cartItems);
-                $session->set("cartItems", $cartItems);
+            foreach ($data['quantity'] as $id => $qty) {
+                //Update the Item Quantity
+                foreach ($cartItems['items'] as &$item) {
+                    if ($item['id'] == $id) {
+                        $item['quantity'] = $qty;
+                        $item['sub_total'] = $item['unitPrice'] * $qty;
+                        break;
+                    }
+                }
             }
+
+            $cartItems = $this->getUtil()->calculateTotal($cartItems);
+            $session->set("cartItems", $cartItems);
         }
 
         return $this->json($cartItems);
@@ -142,6 +152,7 @@ class CartController extends Controller
 
 
     /**
+     *
      * @Route("/checkout",name="checkout_cart")
      * @param Request $request
      * @return Response

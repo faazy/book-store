@@ -28,6 +28,12 @@ class Category
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Book", mappedBy="category")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id",onDelete="CASCADE")
+     */
+    private $books;
+
 
     /**
      * Get id
@@ -61,6 +67,22 @@ class Category
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBooks()
+    {
+        return $this->books;
+    }
+
+    /**
+     * @param mixed $books
+     */
+    public function setBooks($books): void
+    {
+        $this->books = $books;
     }
 }
 

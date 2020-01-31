@@ -1,48 +1,159 @@
 {% extends "base.html.twig" %}
 {% block content %}
-    <form action="checkout" method="post">
-        <div class="row">
-            <p>Cart Total : <span id="totalPrice">{{ cart.cartTotal }}</span></p>
-            <div class="input-field col s6">
-                <input id="coupon_code" name="coupon_code" type="text" class="validate">
-                <label for="coupon_code">Coupon Code</label>
-                <input type="submit" value="Checkout" class="waves-effect waves-light btn-small"></input>
-            </div>
-        </div>
-    </form>
-    <div class="row">
-        {% for book in cart.items %}
-            <div class="col s12">
-                <div class="card horizontal small card-small">
-                    <div class="card-image"><img src="https://images.pexels.com/photos/51342/books-education-school-literature-51342.jpeg?auto=compress&cs=tinysrgb&h=350"></div>
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <h6>{{ book.name }} | {{ book.category }}</h6>
-                            <span>Quantity</span>
-                            <input type="text" onKeyUp="editQty({{ book.id }})" id="qty_{{ book.id }}" value="{{ book.quantity }}" />
-                            <span>Unit Price</span>
-                            <input type="text" value="{{ book.unitPrice }}" />
-                            <p class="flow-text">{{ book.description }}</p>
-                        </div>
-                    </div>
-                    <div class="card-action">
-                        <a href="/cart/delete/{{ book.id }}" class="waves-effect waves-light btn-small">Remove from Cart</a>
-                    </div>
+    <section class="pt-3 pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mb-5 text-center">Shopping Cart</h3>
                 </div>
             </div>
-        {% endfor %}
-    </div>
-    <a class="waves-effect waves-light btn-small" href="/book/index">Continue Shopping ...</a>
+            <div class="row">
+                <div class="col-12 col-md-7">
 
+                    <form id="book-list-form">
+                        <!-- List group -->
+                        <ul class="list-group list-group-lg list-group-flush-x mb-6">
+                            {% for book in cart.items %}
+                                <li class="list-group-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-3">
+                                            <!-- Image -->
+                                            <a href="">
+                                                <img src="{{ asset('images/book_cover.jpg') }}" alt=""
+                                                     class="img-fluid">
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <!-- Title -->
+                                            <div class="d-flex mb-2 font-weight-bold">
+                                                <a class="text-body" href="">
+                                                    {{ book.name }} <span
+                                                            class="text-muted">| {{ book.category }}</span>
+                                                </a>
+                                                <span class="ml-auto">
+                                                    LKR. {{ book.unitPrice | number_format(2) }}
+                                                </span>
+                                            </div>
+                                            <p class="mb-3 font-size-sm text-muted">
+                                                {{ book.description }}
+                                            </p>
+
+                                            <!--Footer -->
+                                            <div class="d-flex align-items-center">
+                                                <input name="book_id[]" type="hidden" value="{{ book.id }}">
+                                                <input class="form-control col-2" name="quantity[{{ book.id }}]"
+                                                       type="number" value="{{ book.quantity }}">
+                                                <!-- Remove -->
+                                                <a class="font-size-xs text-danger ml-auto"
+                                                   href="/cart/delete/{{ book.id }}">
+                                                    <i class="fas fa-trash"></i> Remove
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </form>
+                    <!-- Footer -->
+                    <div class="row align-items-end justify-content-between my-4">
+                        <div class="col-9 col-md-7">
+                            <!-- Coupon -->
+                            <form action="/cart/checkout" method="post" class="mb-5 py-3">
+                                <label class="font-size-sm font-weight-bold" for="cartCouponCode">
+                                    Coupon code:
+                                </label>
+                                <div class="row form-row">
+                                    <div class="col">
+                                        <!-- Input -->
+                                        <input class="form-control form-control-sm" id="cartCouponCode" type="text"
+                                               placeholder="Enter coupon code*" name="coupon_code">
+                                    </div>
+                                    <div class="col-auto">
+                                        <!-- Button -->
+                                        <button class="btn btn-sm btn-dark" type="submit">
+                                            Apply
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="col-md-3 col-md-auto">
+                            <button class="btn btn-sm btn-outline-dark" id="update-cart">Update Cart</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-md-5 col-lg-4 offset-lg-1">
+
+                    <!-- Total -->
+                    <div class="card mb-3 bg-light">
+                        <div class="card-body">
+                            <h6>Cart Summary</h6>
+                            <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x">
+                                <li class="list-group-item d-flex">
+                                    <span>Subtotal</span>
+                                    <span class="ml-auto font-size-sm">LKR. {{ cart.cartTotal }}</span>
+                                </li>
+                                <li class="list-group-item d-flex">
+                                    <span>Discount</span> <span class="ml-auto font-size-sm text-danger">LKR. </span>
+                                </li>
+                                <li class="list-group-item d-flex font-size-lg font-weight-bold">
+                                    <span>Grand Total</span> <span
+                                            class="ml-auto font-size-sm">LKR. {{ cart.cartTotal }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Button -->
+                    <a class="btn btn-block btn-dark mb-2" href="">Proceed to Checkout</a>
+
+                    <!-- Link -->
+                    <a class="btn btn-link btn-sm px-0 text-body" href="/book/index">
+                        <i class="fe fe-arrow-left mr-2"></i> Continue Shopping
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
+
+        $(function () {
+
+            $('#update-cart').click(function (e) {
+                let form = $('#book-list-form');
+                e.preventDefault();
+
+                $.post("/cart/update", form.serialize()).then(function () {
+
+                });
+
+                // $.ajax({
+                //     type: 'POST',
+                //     url: "/cart/update/",
+                //     data: form.serialize(),
+                //     success: function (result) {
+                //         updateTotal(result.cartTotal);
+                //     }
+                // });
+            });
+        });
+
         function editQty(id) {
-            qty = $('#qty_'+id).val();
+            qty = $('#qty_' + id).val();
             $.ajax({
                 type: 'POST',
-                url: "/cart/edit/"+id,
+                url: "/cart/edit/" + id,
                 data: {"qty": qty},
                 success: function (result) {
                     updateTotal(result.cartTotal);

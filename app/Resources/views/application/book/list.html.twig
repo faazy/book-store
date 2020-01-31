@@ -1,25 +1,37 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-    <a class="waves-effect waves-light btn-small" href="create">Add New Book</a>
-    <div class="row">
-        {% for book in books %}
-            <div class="col-sm-4">
-                <div class="card horizontal small card-small" style="height: 250px !important;">
-                    <img class="card-img-top" style="width: 150px"
-                         src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/key-to-mindfulness-self-help-kindle-book-cover-design-template-bc84cd093e48a29584b39c5fd89ea853.jpg?ts=1561443987"
-                         alt="Card image cap">
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <h5><a href="show/{{ book.id }}">{{ book.name }}</a></h5>
-                            <h6>{{ book.author }}</h6>
-                            <h6>Rs. {{ book.unitPrice|number_format(2, '.', ',') }}</h6>
-                            <p style="font-size: 15px" class="flow-text">{{ book.description }}</p>
+    {% for category in categories %}
+        <div class="row">
+            <div class="col-12">
+                <h4 class="mt-3">{{ category.name }}</h4>
+                <div class="row">
+                    {% for book in category.books %}
+                        <div class="col-2">
+                            <div class="card">
+                                <img class="card-img-top"
+                                     src="{{ asset('images/book_cover.jpg') }}"
+                                     alt="Card image cap">
+                                <div class="card-body pl-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5><a href="show/{{ book.id }}">{{ book.name }}</a></h5>
+                                            <h6 class="text-muted">{{ book.author }}</h6>
+                                            <p style="font-size: 15px" class="flow-text">{{ book.description }}</p>
+                                            <div class="my-2">
+                                                <strong>LKR. {{ book.unitPrice|number_format(2, '.', ',') }}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="card-link btn btn-primary text-center" href="/cart/book/{{ book.id }}">
+                                        Add To Cart
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-action"><a href="/cart/book/{{ book.id }}" class="btn orange">Add To Cart</a>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    {% endfor %}
+
 {% endblock %}

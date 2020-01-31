@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
+use AppBundle\Entity\Category;
 use AppBundle\Forms\BookFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -31,11 +32,12 @@ class BookController extends Controller
             $cartItemCount = count($cartItems["items"]);
         }
 
-        $books = $this->getDoctrine()->getRepository(Book::class)
-            ->getAllBooks();
+        $categories = $this->getDoctrine()
+            ->getRepository(Category::class)
+            ->findAll();
 
         return $this->render('application/book/list.html.twig', [
-            'books' => $books,
+            'categories' => $categories,
             "cartItemCount" => $cartItemCount
         ]);
     }

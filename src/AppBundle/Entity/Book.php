@@ -50,7 +50,7 @@ class Book
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="books")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id",onDelete="CASCADE")
      */
     private $category;
