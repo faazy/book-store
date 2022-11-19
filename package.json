@@ -18,7 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.0",
-    "@symfony/webpack-encore": "^0.28.2",
+    "@symfony/webpack-encore": "^4.1.1",
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",
     "popper.js": "^1.16.1"
